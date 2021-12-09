@@ -8,7 +8,7 @@
     {% for article in articles %}
         <article>
             <h2>{{ article.nom }}</h2>
-            <div class="metadata">Publié le 30/11/2021 à 11:31 dans la catégorie Pull</div>
+            <div class="metadata">Prix de l'article : {{ article.prix }} dans la catégorie {{ article.categorie.titre }}</div>
             <div class="content">
                 <img src="http://placehold.it/350x150" alt=""><br>
                 {{ article.prix }}

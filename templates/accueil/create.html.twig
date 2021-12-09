@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
 
@@ -9,11 +8,18 @@
     {{ form_start(formArticle) }}
 
     {{ form_row(formArticle.nom, {'attr' : {'placeholder': "Nom de l'article"}}) }}
+    {{ form_row(formArticle.categorie) }}
     {{ form_row(formArticle.description, {'attr' : {'placeholder': "Description de l'article"}}) }}
     {{ form_row(formArticle.prix, {'attr' : {'placeholder': "Prix de l'article"}}) }}
 
     <br>
-    <button type="submit" class="btn btn-success">Ajouter l'article</button>
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Modifier
+        {% else %}
+            Ajouter l'article
+        {% endif %}
+    </button>
      
     {{ form_end(formArticle) }}
 
