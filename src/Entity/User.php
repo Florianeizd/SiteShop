@@ -4,9 +4,16 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraint\Length;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ * fields= {"email"},
+ * message= "L'email que vous avez saisie est déjà utilisé !"
+ * )
  */
 class User
 {
@@ -19,6 +26,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
@@ -29,9 +37,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères")
      */
     private $password;
-
+    
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Vous n'avez pas saisie le même mot de passe")
+     */
     public $confirm_password;
 
     public function getId(): ?int
