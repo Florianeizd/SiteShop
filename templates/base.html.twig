@@ -44,10 +44,19 @@
                   <input class="form-control me-sm-2" type="text" placeholder="Rechercher" _mstplaceholder="154362">
                   <button class="btn btn-secondary my-2 my-sm-0" type="submit" _msthash="730886" _msttexthash="154362">Rechercher</button>
                 </form>
+                <div class="d-flex mx-2"> 
+                      {% if app.user %} 
+                      <a class="btn btn-light" href="{{ path('app_logout')}}"><i class="fas fa-sign-out-alt"></i> Deconnexion</a>
+                      {% else %}
+                          <a class="btn btn-light mx-2" href="{{ path('app_login')}} "><i class="fas fa-user"></i> Connexion</a>
+                          <a href="{{ path('app_register')}}" class="btn btn-light"><i class="fas fa-mouse-pointer"></i> Inscription</a>
+                      {% endif %}
+                </div>
               </div>
             </div>
         </nav>
         <div class="container">
+            {% include "_flash_message.html.twig" %}
             {% block body %}{% endblock %}
         </div>
         
