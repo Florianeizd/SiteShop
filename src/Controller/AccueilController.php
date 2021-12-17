@@ -46,20 +46,22 @@ class AccueilController extends AbstractController
             $article = new Article();
         }
      
-        // $form = $this->createFormBuilder($article) //champs qui sont relié a une entité article 
-        //              ->add('nom')
-        //              ->add('description')
-        //              ->add('prix')
-        //              ->getForm();
 
         $form = $this->createForm(ArticleType::class, $article); 
 
         $form->handleRequest($request); //analyse de la requête
 
         if($form->isSubmitted() && $form->isValid()){ //si c'est submis et valide
-        
+            
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('file')->getData();
+
+            if ($imageFile) {
+            }
             $manager->persist($article); //enregistrer dans la bdd
             $manager->flush();
+
+            
 
             return $this->redirectToRoute('article_show', ['id'=> $article->getId()]); //redirection de la page d'article 
         }
@@ -68,6 +70,7 @@ class AccueilController extends AbstractController
             'formArticle' => $form->createView(), //form
             'editMode' =>$article->getId() !== null //si il est diff de null = true donc on sera en editMode
         ]);
+        
     }
 
 

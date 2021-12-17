@@ -6,7 +6,7 @@
         <div class="metadata">Publié le 30/11/2021 à 11:31 dans la catégorie {{ article.categorie.titre }}</div>
         <div class="content">
 
-            <img src="http://placehold.it/350x150" alt="">
+            <img src="{{ asset('build/images/sweat.jpg') }}" alt="">
             {{ article.prix }}
             {{ article.description | raw }}
         </div>

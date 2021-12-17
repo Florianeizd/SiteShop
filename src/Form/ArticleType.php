@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ArticleType extends AbstractType
 {
@@ -21,6 +22,13 @@ class ArticleType extends AbstractType
             ])
             ->add('description')
             ->add('prix')
+          	->add('file', FileType::class, [
+                'label' => 'Image du produit',
+                // champ non mappé en base de données
+                'mapped' => false,
+                // chanmp facultatif 
+                'required' => false,
+ 						])
         ;
     }
 

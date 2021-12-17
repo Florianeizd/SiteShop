@@ -34,7 +34,7 @@ class Article
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0)
-     * @Assert\Range(min=1, max=255)
+     * @Assert\Range(min=1, max=9999)
      */
     private $prix;
 
@@ -48,6 +48,11 @@ class Article
      * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="article", orphanRemoval=true)
      */
     private $avis;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
 
     public function __construct()
     {
@@ -133,6 +138,18 @@ class Article
                 $avi->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

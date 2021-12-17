@@ -8,10 +8,16 @@
     {{ form_start(formArticle) }}
 
     {{ form_row(formArticle.nom, {'attr' : {'placeholder': "Nom de l'article"}}) }}
-    {{ form_row(formArticle.categorie) }}
-    {{ form_row(formArticle.description, {'attr' : {'placeholder': "Description de l'article"}}) }}
-    {{ form_row(formArticle.prix, {'attr' : {'placeholder': "Prix de l'article"}}) }}
 
+    {{ form_row(formArticle.categorie) }}
+
+    {{ form_row(formArticle.description, {'attr' : {'placeholder': "Description de l'article"}}) }}
+
+    {{ form_row(formArticle.prix, {'attr' : {'placeholder': "Prix de l'article"}}) }}
+    {{ form_row(formArticle.file) }}
+    
+ 
+        
     <br>
     <button type="submit" class="btn btn-success">
         {% if editMode %}
