@@ -14,10 +14,11 @@
     {{ form_row(formArticle.description, {'attr' : {'placeholder': "Description de l'article"}}) }}
 
     {{ form_row(formArticle.prix, {'attr' : {'placeholder': "Prix de l'article"}}) }}
-    {{ form_row(formArticle.file) }}
     
- 
-        
+    <button type="button" class="btn btn-outline-primary add-item-image-article" data-collection-holder-class="images">Ajouter une nouvelle image</button>
+    <ul class="images" data-index="{{ formArticle.attachments|length > 0 ? formArticle.attachments|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formArticle.attachments.vars.prototype)|e('html_attr') }}"></ul>
+
+
     <br>
     <button type="submit" class="btn btn-success">
         {% if editMode %}

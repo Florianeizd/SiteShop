@@ -11,9 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\Article;
+use App\Entity\Attachment;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Service\AlertServiceInterface;
+use App\Service\FileUploadServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -40,12 +42,12 @@ class AccueilController extends AbstractController
     #[Route('/accueil/new', name: 'accueil_create')]
     #[Route('/accueil/{id}/edit', name: 'accueil_edit')]
 
-    public function form(Article $article = null, Request $request, EntityManagerInterface $manager){ //paramconverter:convertit un paramètre en une entité
+    public function form(Article $article = null, Request $request, EntityManagerInterface $manager, FileUploadServiceInterface $fileUploadService)
+    { //paramconverter:convertit un paramètre en une entité
         
-        if(!$article){
+        if (!$article) {
             $article = new Article();
         }
-     
 
         $form = $this->createForm(ArticleType::class, $article); 
 
@@ -53,11 +55,24 @@ class AccueilController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){ //si c'est submis et valide
             
-            /** @var UploadedFile $imageFile */
-            $imageFile = $form->get('file')->getData();
+            $attachments = $form->get('attachments')->getData();
 
-            if ($imageFile) {
+            foreach ($attachments as $attachment) {
+                /** @var UploadedFile $imageFile */
+                $imageUploadedFile = $attachment->getFile();
+
+                $filename = $fileUploadService->upload($imageUploadedFile);
+
+                $attachmentObject = new Attachment();
+                $attachmentObject->setName($filename);
+                $attachmentObject->setSize(0);
+                $attachmentObject->setTypeMine($imageUploadedFile->getMimeType());
+
+                $attachmentObject->setArticle($article);
+
+                $manager->persist($attachmentObject); 
             }
+
             $manager->persist($article); //enregistrer dans la bdd
             $manager->flush();
 

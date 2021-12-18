@@ -50,13 +50,16 @@ class Article
     private $avis;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Attachment::class, mappedBy="article")
      */
-    private $image;
+    private $attachments;
+    
+
 
     public function __construct()
     {
         $this->avis = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,14 +145,32 @@ class Article
         return $this;
     }
 
-    public function getImage(): ?string
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
     {
-        return $this->image;
+        return $this->attachments;
     }
 
-    public function setImage(string $image): self
+    public function addAttachment(Attachment $attachment): self
     {
-        $this->image = $image;
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->removeElement($attachment)) {
+            // set the owning side to null (unless already changed)
+            if ($attachment->getArticle() === $this) {
+                $attachment->setArticle(null);
+            }
+        }
 
         return $this;
     }
