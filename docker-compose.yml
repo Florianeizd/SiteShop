@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  db:
+    image: 'mysql:5.7'
+    ports:
+      - '3306:3306'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=toor'
+      - 'MYSQL_DATABASE=site-shop'
+      - 'MYSQL_USER=site-site-shop'
+      - 'MYSQL_PASSWORD=site-shop'
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=toor'
+    ports:
+      - '8585:80'
+
