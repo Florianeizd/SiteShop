@@ -39,11 +39,6 @@ class Attachment
     private $typeMime;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="attachments", cascade={"persist"})
-     */
-    private $article;
-
-    /**
      * @var UploadedFile
      */
     private $file;
@@ -133,25 +128,6 @@ class Attachment
     public function setTypeMime(string $typeMime): self
     {
         $this->typeMime = $typeMime;
-
-        return $this;
-    }
-
-    /**
-     * @return Article|null
-     */
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    /**
-     * @param Article|null $article
-     * @return $this
-     */
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
 
         return $this;
     }

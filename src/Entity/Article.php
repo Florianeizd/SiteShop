@@ -46,7 +46,11 @@ class Article
     private $categorie;
 
     /**
-     * @ORM\OneToMany(targetEntity=Attachment::class, mappedBy="article", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Attachment::class, cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\JoinTable(name="article_attachment",
+     *      joinColumns={@ORM\JoinColumn(name="article_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id")}
+     * )
      */
     private $attachments;
 
@@ -156,7 +160,6 @@ class Article
     {
         if (!$this->attachments->contains($attachment)) {
             $this->attachments[] = $attachment;
-            $attachment->setArticle($this);
         }
 
         return $this;
@@ -168,11 +171,8 @@ class Article
      */
     public function removeAttachment(Attachment $attachment): self
     {
-        if ($this->attachments->removeElement($attachment)) {
-            // set the owning side to null (unless already changed)
-            if ($attachment->getArticle() === $this) {
-                $attachment->setArticle(null);
-            }
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
         }
 
         return $this;

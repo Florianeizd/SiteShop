@@ -1,23 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% import 'article/_macro_article.html.twih.twig' as article_macro %}
+
 {% block body %}
     <article>
         <h2>{{ article.nom }}</h2>
         <div class="metadata">Publié le 30/11/2021 à 11:31 dans la catégorie {{ article.categorie.titre }}</div>
         <div class="content">
-
-            {% if article.image %}
-                    <img src="{{ asset(pathImageArticles ~ article.image ) }}" alt="{{ article.nom }}">
-            {% else %}
-                <img src="http://placehold.it/350x150" alt="">
-                {% endif %}
-
+            {{ article_macro.showAttachment(article.attachments, article.nom, false) }}
             {{ article.prix }}
             {{ article.description | raw }}
         </div>
     </article>
 
-    <section id="commentaires">
+    {# <section id="commentaires">
         {% for avis in article.avis %}
             <div class="avis">
                 <div class="row">
@@ -32,6 +28,6 @@
                 </div>
             </div>
         {% endfor %}
-    </section>
+    </section> #}
     <article>
 {% endblock %}

@@ -41,3 +41,24 @@
         {% endfor %}
     </div>
 {% endmacro %}
+
+{% macro showAttachment(attachments, nameArticle, first) %}
+    {% if attachments %}
+        <div class="row">
+            <div class="col d-flex align-items-center">
+                {% if first %}
+                    {% set attachment = attachments|first %}
+                    {% if attachment != "" %}
+                        <img src="{{ asset(pathImageArticles ~ attachment.name) }}" alt="{{ nameArticle }}" />
+                    {% endif %}
+                {% else %}
+                    {% for key, attachment in attachments %}
+                        <img src="{{ asset(pathImageArticles ~ attachment.name) }}" alt="{{ nameArticle ~ '_' ~ key }}" />
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <img src="http://placehold.it/350x150" alt="{{ nameArticle }}">
+    {% endif %}
+{% endmacro %}

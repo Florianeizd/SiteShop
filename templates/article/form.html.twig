@@ -3,7 +3,7 @@
 {% import 'article/_macro_article.html.twih.twig' as article_macro %}
 
 {% block body %}
-    <h1>Création d'un article !</h1>
+    <h1>{{ form.vars.value.id ? 'Modifer l\'article !' : 'Création d\'un article !' }}</h1>
 
     {{ form_start(form) }}
         {{ form_row(form.nom, {'attr' : {'placeholder': "Nom de l'article"}}) }}
