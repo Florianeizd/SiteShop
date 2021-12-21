@@ -42,18 +42,22 @@
     </div>
 {% endmacro %}
 
-{% macro showAttachment(attachments, nameArticle, first) %}
-    {% if attachments %}
+{% macro showAttachment(attachments, nameArticle, className, first) %}
+    {% if attachments is not empty %}
         <div class="row">
             <div class="col d-flex align-items-center">
                 {% if first %}
                     {% set attachment = attachments|first %}
                     {% if attachment != "" %}
-                        <img src="{{ asset(pathImageArticles ~ attachment.name) }}" alt="{{ nameArticle }}" />
+                        <img class="{{ className == '' ? '' : className }}"
+                             src="{{ asset(pathImageArticles ~ attachment.name) }}"
+                             alt="{{ nameArticle }}" />
                     {% endif %}
                 {% else %}
                     {% for key, attachment in attachments %}
-                        <img src="{{ asset(pathImageArticles ~ attachment.name) }}" alt="{{ nameArticle ~ '_' ~ key }}" />
+                        <img class="{{ className == '' ? '' : className }}"
+                             src="{{ asset(pathImageArticles ~ attachment.name) }}"
+                             alt="{{ nameArticle }}" />
                     {% endfor %}
                 {% endif %}
             </div>

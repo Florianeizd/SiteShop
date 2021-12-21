@@ -5,20 +5,24 @@
 {% import 'article/_macro_article.html.twih.twig' as article_macro %}
 
 {% block body %}
-<section class="articles">
-    {% for article in articles %}
-        <article>
-            <h2>{{ article.nom }}</h2>
-            <div class="metadata">Prix de l'article : {{ article.prix }} dans la catégorie {{ article.categorie.titre }}</div>
-            <div class="content">
-
-                {{ article_macro.showAttachment(article.attachments, article.nom, true) }}
-
-                {{ article.prix }}
-                {{ article.description | raw }}
-                <a href="{{ path('article_show', {'id' : article.id }) }}" class=" btn btn-primary">Voir plus</a>
-            </div>
-        </article>
-    {% endfor %}
-</section>
+    <section class="articles row row-cols-1 row-cols-md-3 g-4">
+        {% for article in articles %}
+            <article class="col">
+                <div class="card h-100">
+                    {{ article_macro.showAttachment(article.attachments, article.nom, 'card-img-top class', true) }}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ article.nom }} <br/>
+                            <small>{{ article.categorie.titre }}</small>
+                        </h5>
+                        <div class="card-text">{{ article.description|raw }}</div>
+                        <a href="{{ path('article_show', {'id' : article.id }) }}" class="btn btn-primary">Voir plus</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">{{ article.prix }} €</small>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </section>
 {% endblock %}
