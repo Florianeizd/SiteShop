@@ -15,7 +15,7 @@
                             {{ article.nom }} <br/>
                             <small>{{ article.categorie.titre }}</small>
                         </h5>
-                        <p class="card-text">{{ article.description|raw }}</p>
+                        <p class="card-text">{{ article.description }}</p>
                         <a href="{{ path('article_show', {'id' : article.id }) }}" class="btn btn-primary">Voir plus</a>
                     </div>
                     <div class="card-footer">
