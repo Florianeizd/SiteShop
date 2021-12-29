@@ -1,0 +1,120 @@
+version: "3"
+
+services:
+  traefik:
+    image: traefik:v1.7
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/traefik/traefik.toml:/etc/traefik/traefik.toml
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.frontend.rule=Host:traefik.site-shop.local
+      - traefik.port=8080
+
+  nginx:
+    image: nginx:1.17-alpine
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+    links:
+      - php
+    networks:
+      - internal
+      - proxy
+    labels:
+      - traefik.docker.network=proxy
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:site-shop.local
+      - traefik.port=80
+
+  php:
+    environment:
+      - 'COMPOSER_ALLOW_SUPERUSER=1'
+      - 'COMPOSER_MEMORY_LIMIT=-1'
+    build:
+      args:
+        USER_ID: 1000
+      context: docker/php
+    volumes:
+      - .:/var/www
+      - ./docker/php/conf/cli.ini:/etc/php/8.0/cli/conf.d/zz-symfony.ini
+      - ./docker/php/conf/fpm.ini:/etc/php/8.0/fpm/conf.d/zz-symfony.ini
+      - ./docker/php/conf/xdebug.ini:/etc/php/8.0/fpm/conf.d/zz-xdebug.ini
+      - ./docker/php/conf/opcache.ini:/etc/php/8.0/fpm/conf.d/zz-opcache.ini
+      - ./docker/php/conf/pool.conf:/etc/php/8.0/fpm/pool.d/www.conf
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+
+  db:
+    image: 'mysql:5.7'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=toor'
+      - 'MYSQL_DATABASE=site-shop'
+      - 'MYSQL_USER=site-site-shop'
+      - 'MYSQL_PASSWORD=site-shop'
+      - 'TZ=Europe/Paris'
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: toor
+    labels:
+      - traefik.docker.network=proxy
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:phpmyadmin.site-shop.local
+      - traefik.port=80
+    networks:
+      - internal
+      - proxy
+
+  mailhog:
+    image: mailhog/mailhog
+    networks:
+      - internal
+      - proxy
+    labels:
+      - traefik.docker.network=proxy
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:mail.site-shop.local
+      - traefik.port=8025
+
+  imaginary:
+    image: h2non/imaginary:latest
+    # optionally mount a volume as local image source
+    volumes:
+      - ./public/images:/mnt/data
+    environment:
+      PORT: 9000
+    command: -enable-url-source -mount /mnt/data
+    networks:
+      - internal
+      - proxy
+    labels:
+      - traefik.docker.network=proxy
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:imaginary.site-shop.local
+      - traefik.port=9000
+
+networks:
+  internal:
+  proxy:
+    external: true
+
+volumes:
+  db_data:

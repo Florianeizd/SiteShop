@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    endpoint.imaginary: '%env(resolve:ENDPOINT_IMAGINARY)%'
     path.images.article: 'images/articles/'
 
 services:
@@ -11,6 +12,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $imaginaryUrl: '%endpoint.imaginary%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -28,4 +31,3 @@ services:
     App\Service\FileUploadService:
         arguments:
             $pathImageArticle: '%path.images.article%'
-
