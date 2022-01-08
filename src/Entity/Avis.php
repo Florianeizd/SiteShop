@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AvisRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Article;
 
 /**
  * @ORM\Entity(repositoryClass=AvisRepository::class)
@@ -37,6 +38,17 @@ class Avis
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isEnable;
+
+    public function __construct()
+    {
+        $this->isEnable = false;
+        $this->createdAt = new \DateTimeImmutable('now');
+    }
 
     /**
      * @return int|null
@@ -118,6 +130,25 @@ class Avis
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+     /**
+     * @return bool
+     */
+    public function isEnable(): bool
+    {
+        return $this->isEnable;
+    }
+
+    /**
+     * @param bool $isEnable
+     * @return $this
+     */
+    public function setIsEnable(bool $isEnable): self
+    {
+        $this->isEnable = $isEnable;
 
         return $this;
     }

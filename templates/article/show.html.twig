@@ -5,28 +5,42 @@
 {% block body %}
     <article>
         <h2>{{ article.nom }}</h2>
-        <div class="metadata">Publié le 30/11/2021 à 11:31 dans la catégorie {{ article.category.titre }}</div>
+        <div class="metadata">{{ article.category.titre }}</div>
         <div class="content">
             {{ article_macro.showAttachment(article.attachments, article.nom, 'img rounded', false) }}
-            {{ article.prix }}
+            <h3 class="text-danger">{{ article.prix }} €</h3>
             {{ article.description | raw }}
         </div>
     </article>
 
-    {# <section id="commentaires">
-        {% for avis in article.avis %}
-            <div class="avis">
-                <div class="row">
-                    <div class="col-3">
-                        {{avis.auteur}} (<small>
-                            {{avis.createdAt | date('d/m/Y à H:i')}}
-                        </small>)
-                    </div>
-                    <div class="col">
-                        {{ avis.contenue | raw}}
+    <br>
+
+    <section class="content-item" id="commentaires">
+        {% if app.user %}
+        <div class="py-3">
+            <h2>Ajouter un avis</h2>
+            {{ form_start(form) }}
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-success">Envoyee</button>
+            {{ form_end(form) }}
+        </div>
+        {% else %}
+            <p>Connecté vous pour publier un commentaire !</p>
+        {% endif %}
+
+        <h2>Liste des avis</h2>
+        {% for avis in avis %}
+            <div class="container justify-content-center border-left border-right">
+                <h5>Avis n°{{loop.index}}</h5>
+                <div class="">
+                    <div class="second py-2 px-2"> <span class="text1">{{ avis.contenue | raw }}</span>
+                        <div class="d-flex justify-content-between py-1 pt-2">
+                            <div><i class="fas fa-user-check" style="color: #f3969a;"></i><span class="text2">{{avis.auteur}}</span></div>
+                            <div><span class="text3">Publié le {{avis.createdAt | date('d/m/Y à H:i')}}</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
         {% endfor %}
-    </section> #}
+    </section>
 {% endblock %}
