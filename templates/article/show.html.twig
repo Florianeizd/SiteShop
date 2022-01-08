@@ -5,7 +5,7 @@
 {% block body %}
     <article>
         <h2>{{ article.nom }}</h2>
-        <div class="metadata">Publié le 30/11/2021 à 11:31 dans la catégorie {{ article.categorie.titre }}</div>
+        <div class="metadata">Publié le 30/11/2021 à 11:31 dans la catégorie {{ article.category.titre }}</div>
         <div class="content">
             {{ article_macro.showAttachment(article.attachments, article.nom, 'img rounded', false) }}
             {{ article.prix }}

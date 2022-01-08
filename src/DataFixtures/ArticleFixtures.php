@@ -88,7 +88,7 @@ class ArticleFixtures extends Fixture
                 $startDate = $faker->dateTimeBetween('+0 days', '+1 months');
                 $startDateClone = clone $startDate;
 
-                $avis->setAuteur($faker->name);
+                $avis->setAuteur($faker->name());
                 $avis->setContenue($faker->sentence());
                 $avis->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween($startDate, $startDateClone->modify('+5 hours'))) );
 
