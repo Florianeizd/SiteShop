@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Attachment;
+use App\Entity\Avis;
 use App\Service\AlertServiceInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Form\AvisType;
 use App\Service\FileUploadServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -78,13 +81,44 @@ class ArticleController extends AbstractController
 
     /**
      * @param Article $article
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
      */
     #[Route('/accueil/article/{id}', name: 'article_show')]
-    public function show(Article $article): Response
+    public function show(Article $article, Request $request, EntityManagerInterface $manager): Response
     {
+        //Partie avis
+        //on crée le commentaire "vierge"
+        $avis = new Avis;
+
+        //on génère le formulaire
+        $form = $this->createForm(AvisType::class, $avis);
+        $form->handleRequest($request);
+
+        //traitement du formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avis->setArticle($article);
+
+            $manager->persist($avis);
+            $manager->flush();
+
+            $this->alertService->success('Votre avis a bien été envoyé !');
+
+            return $this->redirectToRoute('article_show', ['id' => $article->getId()]);
+        }
+
+        // Filtre sur les avis actifs (isEnable = 1) le plus jeune en premier
+        $collectionAvis = new ArrayCollection(array_reverse($article->getAvis()->toArray()));
+        $avis = $collectionAvis->filter(function ($avis) {
+            /** @var $avis Avis */
+           return $avis->isEnable();
+        });
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
+            'avis' => $avis,
+            'form' => $form->createView(),
         ]);
     }
 
