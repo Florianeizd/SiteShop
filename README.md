@@ -51,7 +51,7 @@ $ php bin/console doctrine:migrations:migrate
 Jouer les fixtures : 
 
 ```
-$ php bin/console doctrine:fixtures:load
+$ php bin/console doctrine:fixtures:load --append
 ```
 
 ### Lancer le serveur web
