@@ -16,12 +16,8 @@ class AccueilController extends AbstractController
     #[Route('/accueil', name: 'accueil')]
     public function index(ArticleRepository $articleRepository): Response
     {
-
-        $articles = $articleRepository->findAll();
-
         return $this->render('accueil/index.html.twig', [
-
-            'articles' => $articles
+            'articles' => $articleRepository->findAll(),
         ]);
     }
 

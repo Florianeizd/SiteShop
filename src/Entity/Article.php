@@ -40,10 +40,10 @@ class Article
     private $prix;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $categorie;
+    private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity=Attachment::class, cascade={"persist", "remove"}, orphanRemoval=true)
@@ -126,20 +126,20 @@ class Article
     }
 
     /**
-     * @return Categorie|null
+     * @return Category|null
      */
-    public function getCategorie(): ?Categorie
+    public function getCategory(): ?Category
     {
-        return $this->categorie;
+        return $this->category;
     }
 
     /**
-     * @param Categorie|null $categorie
+     * @param Category|null $category
      * @return $this
      */
-    public function setCategorie(?Categorie $categorie): self
+    public function setCategory(?Category $category): self
     {
-        $this->categorie = $categorie;
+        $this->category = $category;
 
         return $this;
     }

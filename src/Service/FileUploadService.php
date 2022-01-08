@@ -47,7 +47,7 @@ class FileUploadService implements FileUploadServiceInterface
             $this->entityManager->persist($attachment);
             $this->entityManager->flush();
         } catch (FileException $e) {
-            throw new \RuntimeException('Error upload file' . $e->getTraceAsString());
+            throw new \RuntimeException('Error upload file :: ' . $e->getMessage() . $e->getTraceAsString());
         }
 
         return $attachment;
