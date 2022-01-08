@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Attachment;
 use App\Repository\CategoryRepository;
-use App\Service\FileUploadServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Article;
@@ -14,7 +13,6 @@ use App\Entity\Avis;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ArticleFixtures extends Fixture
@@ -23,13 +21,11 @@ class ArticleFixtures extends Fixture
 
     private CategoryRepository $categoryRepository;
     private ParameterBagInterface $parameterBag;
-    private FileUploadServiceInterface $fileUploadService;
 
-    public function __construct(CategoryRepository $categoryRepository, ParameterBagInterface $parameterBag, FileUploadServiceInterface $fileUploadService)
+    public function __construct(CategoryRepository $categoryRepository, ParameterBagInterface $parameterBag)
     {
         $this->categoryRepository = $categoryRepository;
         $this->parameterBag = $parameterBag;
-        $this->fileUploadService = $fileUploadService;
     }
 
     /**
