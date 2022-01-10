@@ -152,4 +152,9 @@ class Avis
 
         return $this;
     }
+
+
+    public function index(){
+        return ;
+    }
 }
