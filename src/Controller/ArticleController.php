@@ -51,7 +51,7 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $attachments = $form->get('attachments')->getData();
             foreach ($attachments as $attachment) {
-                /** @var UploadedFile $imageFile */
+                /** @var UploadedFile $imageUploadedFile */
                 $imageUploadedFile = $attachment->getFile();
 
                 if ($imageUploadedFile) {
