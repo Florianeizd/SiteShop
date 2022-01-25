@@ -4,6 +4,7 @@ twig:
 
     globals:
        pathImageArticles: '%path.images.article%'
+       stripe_api_pk: '%stripe.api.pk%' 
 
 when@test:
     twig:

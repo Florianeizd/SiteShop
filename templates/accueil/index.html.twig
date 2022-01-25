@@ -21,6 +21,10 @@
                     </div>
                     <div class="card-footer">
                         <a href="{{ path('article_show', {'id' : article.id }) }}" class="btn btn-primary">Voir plus</a>
+                        
+                        <a style="float: right;" href="{{ path('cart_add', {'id' : article.id }) }}" class="btn btn-success">
+                            <i class="fas fa-cart-plus"></i> Ajouter
+                        </a>
                     </div>
                 </div>
             </article>

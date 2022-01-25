@@ -59,10 +59,16 @@ class Article
      */
     private $avis;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="article")
+     */
+    private $orderDetails;
+
     #[Pure]
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
     }
 
     /**
@@ -207,6 +213,36 @@ class Article
             // set the owning side to null (unless already changed)
             if ($avi->getArticle() === $this) {
                 $avi->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderDetail[]
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetail $orderDetail): self
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails[] = $orderDetail;
+            $orderDetail->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetail $orderDetail): self
+    {
+        if ($this->orderDetails->removeElement($orderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getArticle() === $this) {
+                $orderDetail->setArticle(null);
             }
         }
 

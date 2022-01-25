@@ -29,22 +29,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('article_create') }}">Créer un article</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                               aria-haspopup="true" aria-expanded="false">Liste déroulante</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Une autre action</a>
-                                <a class="dropdown-item" href="#">Autre chose ici</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Lien séparé</a>
-                            </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('cart_index') }}">Votre panier</a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="text" placeholder="Rechercher">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
-                    </form>
                     <div class="d-flex mx-2">
                         {% if app.user %}
                             <a class="btn btn-light" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i>
