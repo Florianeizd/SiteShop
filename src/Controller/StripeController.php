@@ -36,7 +36,6 @@ class StripeController extends AbstractController
     public function index(EntityManagerInterface $entityManager, RequestStack $requestStack, SessionInterface $sessionInterface): Response
     {
         $products = [];
-        // $currentUrl = $requestStack->getCurrentRequest()->getSchemeAndHttpHost();
         $panier = $sessionInterface->get("panier");
 
         $order= new Order();
@@ -74,7 +73,6 @@ class StripeController extends AbstractController
                     'unit_amount'=> $orderDetail->getPrice() * 100,
                     'product_data'=> [
                       'name'=> $orderDetail->getArticle()->getNom(),
-                    //   'images'=> [$currentUrl . '/uploads/' . $orderDetail->getProduct()->getImageFile()],
                     ],
                 ],
                 'quantity'=> $orderDetail->getQuantity(),

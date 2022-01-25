@@ -13,9 +13,11 @@
         </div>
     </article>
 
+    {% if is_granted(constant('App\\Entity\\User::ROLE_ADMIN')) %}
     <a href="{{ path("article_edit", {id: article.id}) }}" class="btn btn-warning">
         <i class="fas fa-edit"></i>
     </a>
+    {% endif %} 
 
     <br>
 
@@ -32,8 +34,10 @@
             <p>Connecté vous pour publier un commentaire !</p>
         {% endif %}
 
+        {% if is_granted(constant('App\\Entity\\User::ROLE_ADMIN')) %}
         <a href="{{ path('avis') }}">Modération des avis</a>
-
+        {% endif %} 
+        
         <h2>Liste des avis</h2>  
         {% for avis in avis %}
             <div class="container justify-content-center border-left border-right">
