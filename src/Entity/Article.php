@@ -6,6 +6,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,10 +40,19 @@ class Article
     private $prix;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $categorie;
+    private $category;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Attachment::class, cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\JoinTable(name="article_attachment",
+     *      joinColumns={@ORM\JoinColumn(name="article_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id")}
+     * )
+     */
+    private $attachments;
 
     /**
      * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="article", orphanRemoval=true)
@@ -50,28 +60,37 @@ class Article
     private $avis;
 
     /**
-     * @ORM\OneToMany(targetEntity=Attachment::class, mappedBy="article")
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="article")
      */
-    private $attachments;
-    
+    private $orderDetails;
 
-
+    #[Pure]
     public function __construct()
     {
-        $this->avis = new ArrayCollection();
         $this->attachments = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
+    /**
+     * @param string $nom
+     * @return $this
+     */
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
@@ -79,11 +98,18 @@ class Article
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -91,11 +117,18 @@ class Article
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPrix(): ?string
     {
         return $this->prix;
     }
 
+    /**
+     * @param string $prix
+     * @return $this
+     */
     public function setPrix(string $prix): self
     {
         $this->prix = $prix;
@@ -103,14 +136,55 @@ class Article
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    /**
+     * @return Category|null
+     */
+    public function getCategory(): ?Category
     {
-        return $this->categorie;
+        return $this->category;
     }
 
-    public function setCategorie(?Categorie $categorie): self
+    /**
+     * @param Category|null $category
+     * @return $this
+     */
+    public function setCategory(?Category $category): self
     {
-        $this->categorie = $categorie;
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * @param Attachment $attachment
+     * @return $this
+     */
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Attachment $attachment
+     * @return $this
+     */
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+        }
 
         return $this;
     }
@@ -146,32 +220,33 @@ class Article
     }
 
     /**
-     * @return Collection|Attachment[]
+     * @return Collection|OrderDetail[]
      */
-    public function getAttachments(): Collection
+    public function getOrderDetails(): Collection
     {
-        return $this->attachments;
+        return $this->orderDetails;
     }
 
-    public function addAttachment(Attachment $attachment): self
+    public function addOrderDetail(OrderDetail $orderDetail): self
     {
-        if (!$this->attachments->contains($attachment)) {
-            $this->attachments[] = $attachment;
-            $attachment->setArticle($this);
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails[] = $orderDetail;
+            $orderDetail->setArticle($this);
         }
 
         return $this;
     }
 
-    public function removeAttachment(Attachment $attachment): self
+    public function removeOrderDetail(OrderDetail $orderDetail): self
     {
-        if ($this->attachments->removeElement($attachment)) {
+        if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
-            if ($attachment->getArticle() === $this) {
-                $attachment->setArticle(null);
+            if ($orderDetail->getArticle() === $this) {
+                $orderDetail->setArticle(null);
             }
         }
 
         return $this;
     }
+
 }

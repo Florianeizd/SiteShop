@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=AttachmentRepository::class)
@@ -36,34 +36,38 @@ class Attachment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $typeMine;
+    private $typeMime;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="attachments")
-     */
-    private $article;
-
-    /**
-     * @var File
+     * @var UploadedFile
      */
     private $file;
-
 
     public function __construct()
     {
         $this->createdAt= new \DateTimeImmutable();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -71,11 +75,18 @@ class Attachment
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getSize(): ?int
     {
         return $this->size;
     }
 
+    /**
+     * @param int $size
+     * @return $this
+     */
     public function setSize(int $size): self
     {
         $this->size = $size;
@@ -83,47 +94,57 @@ class Attachment
         return $this;
     }
 
+    /**
+     * @return \DateTimeImmutable|null
+     */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeImmutable $createdAt
+     * @return $this
+     */
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
-    public function getTypeMine(): ?string
+
+    /**
+     * @return string|null
+     */
+    public function getTypeMime(): ?string
     {
-        return $this->typeMine;
+        return $this->typeMime;
     }
 
-    public function setTypeMine(string $typeMine): self
+    /**
+     * @param string $typeMime
+     * @return $this
+     */
+    public function setTypeMime(string $typeMime): self
     {
-        $this->typeMine = $typeMine;
+        $this->typeMime = $typeMime;
 
         return $this;
     }
 
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
-
-        return $this;
-    }
-
-    public function getFile(): ?File
+    /**
+     * @return UploadedFile|null
+     */
+    public function getFile(): ?UploadedFile
     {
         return $this->file;
     }
 
-    public function setFile(File $file): self
+    /**
+     * @param UploadedFile $file
+     * @return $this
+     */
+    public function setFile(UploadedFile $file): self
     {
         $this->file = $file;
 

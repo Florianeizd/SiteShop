@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% import 'article/_macro_article.html.twih.twig' as article_macro %}
+
+{% block body %}
+    <h1>{{ form.vars.value.id ? 'Modifer l\'article !' : 'Création d\'un article !' }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.nom, {'attr' : {'placeholder': "Nom de l'article"}}) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.description, {'attr' : {'placeholder': "Description de l'article"}}) }}
+        {{ form_row(form.prix, {'attr' : {'placeholder': "Prix de l'article"}}) }}
+
+        {{ article_macro.attachmentForm(form) }}
+
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                    <button type="submit" class="btn btn-success">
+                        {{ form.vars.value.id ? 'Modifier' : 'Ajouter l\'article' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

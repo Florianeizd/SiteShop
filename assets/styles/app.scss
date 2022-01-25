@@ -35,12 +35,15 @@
 @import "~bootswatch/dist/minty/variables";
 @import "~bootstrap/scss/bootstrap";
 @import "~bootswatch/dist/minty/bootswatch";
+
 // Font Awesome
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
+@import "_avis"; 
+
 body {
-    font-family: 'Playfair Display', serif;
-  }
+  font-family: 'Playfair Display', serif;
+}

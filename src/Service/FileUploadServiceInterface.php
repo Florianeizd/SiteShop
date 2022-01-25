@@ -2,9 +2,13 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Entity\Attachment;
 
 interface FileUploadServiceInterface
 {
-    public function upload(UploadedFile $file): string;
+    /**
+     * @param Attachment $attachment
+     * @return Attachment
+     */
+    public function upload(Attachment $attachment): Attachment;
 }
