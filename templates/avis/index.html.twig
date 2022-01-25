@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AvisController!{% endblock %}
+
+{% block body %}
+    {% for avi in avis %}
+    <div class="container justify-content-center border-left border-right">
+        <div class="">
+            <div class="second py-2 px-2"> <span class="text1">{{ avi.contenue | raw }}</span>
+                <div class="d-flex justify-content-between py-1 pt-2">
+                    <div><i class="fas fa-user-check" style="color: #f3969a;"></i><span class="text2">{{avi.auteur}}</span></div>
+                    <div><span class="text3">Publié le {{avi.createdAt | date('d/m/Y à H:i')}}</span></div>
+
+                    {% if avi.isEnable %}
+                        {% set label = 'Desactivez l\'avis' %}
+                        {% else %}
+                            {% set label = 'Activez l\'avis' %}
+                    {% endif %}
+                    
+                    <a href="{{ path('avis_activedordesactivated', {'id': avi.id} ) }}">{{ label }}</a>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
