@@ -85,6 +85,7 @@ class ArticleController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    
     #[Route('/accueil/article/{id}', name: 'article_show')]
     public function show(Article $article, Request $request, EntityManagerInterface $manager): Response
     {

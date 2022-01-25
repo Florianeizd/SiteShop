@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+    <section class="bg-light p-3">
+        <h1 class="text-center">Mon Panier</h1>
+    </section>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for element in dataPanier %}
+                <tr>
+                    <td>{{ element.article.nom }}</td>
+                    <td class="text-danger">{{ element.article.prix }} €</td>
+                    <td>{{ element.quantite }}</td>
+                    <td class="text-warning">{{ element.quantite * element.article.prix }} €</td>
+                    <td>
+                        <a href="{{ path("cart_add", {id: element.article.id}) }}" class="btn btn-success">
+                            <i class="fas fa-cart-plus"></i>
+                        </a>
+                        <a href="{{ path("cart_remove", {id: element.article.id}) }}" class="btn btn-warning">
+                            <i class="fas fa-cart-arrow-down"></i>
+                        </a>
+                        <a href="{{ path("cart_delete", {id: element.article.id}) }}" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Votre panier est vide</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total</td>
+                <td class="text-success">{{ total }} €</td>
+                <td><button id="checkout-button" class="btn btn-success">Payer ma commande</button></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+<a href="{{ path('cart_deleteAll') }}">Supprimer le panier</a>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+    window.onload = function () {
+        var stripe = Stripe("{{ stripe_api_pk }}");
+        document.getElementById("checkout-button").addEventListener("click", function () {
+            fetch("{{ path('stripe') }}", {
+                method: "POST",
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+                    if (session.error === 'order') {
+                        window.location.replace("{{ path('cart_index') }}");
+                    } else {
+                        return stripe.redirectToCheckout({sessionId: session.id});
+                    }
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                });
+        });
+    }
+    </script>
+{% endblock %}

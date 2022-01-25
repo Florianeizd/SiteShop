@@ -13,6 +13,10 @@
         </div>
     </article>
 
+    <a href="{{ path("article_edit", {id: article.id}) }}" class="btn btn-warning">
+        <i class="fas fa-edit"></i>
+    </a>
+
     <br>
 
     <section class="content-item" id="commentaires">
@@ -21,14 +25,16 @@
             <h2>Ajouter un avis</h2>
             {{ form_start(form) }}
                 {{ form_rest(form) }}
-                <button type="submit" class="btn btn-success">Envoyee</button>
+                <button type="submit" class="btn btn-success">Envoyer</button>
             {{ form_end(form) }}
         </div>
         {% else %}
             <p>Connecté vous pour publier un commentaire !</p>
         {% endif %}
 
-        <h2>Liste des avis</h2>
+        <a href="{{ path('avis') }}">Modération des avis</a>
+
+        <h2>Liste des avis</h2>  
         {% for avis in avis %}
             <div class="container justify-content-center border-left border-right">
                 <h5>Avis n°{{loop.index}}</h5>

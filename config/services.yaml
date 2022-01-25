@@ -6,6 +6,11 @@
 parameters:
     endpoint.imaginary: '%env(resolve:ENDPOINT_IMAGINARY)%'
     path.images.article: 'images/articles/'
+    stripe.api.secretkey: '%env(STRIPE_SECRET_KEY)%' 
+    stripe.api.pk: '%env(STRIPE_PUBLIC_KEY)%'
+    stripe.currency: 'eur'
+    stripe.mode: 'payment'
+    
 
 services:
     # default configuration for services in *this* file
@@ -14,6 +19,9 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $imaginaryUrl: '%endpoint.imaginary%'
+            $stripeApiSecretKey: '%stripe.api.secretkey%'
+            $stripeCurrency: '%stripe.currency%'
+            $stripeMode: '%stripe.mode%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

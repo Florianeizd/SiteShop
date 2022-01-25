@@ -30,7 +30,7 @@ class Category
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="categorie")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
      */
     private $articles;
 
