@@ -69,3 +69,4 @@ $ symfony serve
 | phpmyadmin              |        80         | http://localhost:8585/                              |
 | mailhog (SMTP)          |       1025        | smtp://mailhog:1025                                 |
 | mailhog (HTTP)          |       8025        | http://localhost:8025/                              |
+ 
