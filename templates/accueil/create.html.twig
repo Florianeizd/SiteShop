@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <h1>Création d'un article !</h1>
+
+    {{ form_start(formArticle) }}
+
+    {{ form_row(formArticle.nom, {'attr' : {'placeholder': "Nom de l'article"}}) }}
+
+    {{ form_row(formArticle.categorie) }}
+
+    {{ form_row(formArticle.description, {'attr' : {'placeholder': "Description de l'article"}}) }}
+
+    {{ form_row(formArticle.prix, {'attr' : {'placeholder': "Prix de l'article"}}) }}
+    
+    <button type="button" class="btn btn-outline-primary add-item-image-article" data-collection-holder-class="images">Ajouter une nouvelle image</button>
+    <ul class="images" data-index="{{ formArticle.attachments|length > 0 ? formArticle.attachments|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formArticle.attachments.vars.prototype)|e('html_attr') }}"></ul>
+
+
+    <br>
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Modifier
+        {% else %}
+            Ajouter l'article
+        {% endif %}
+    </button>
+     
+    {{ form_end(formArticle) }}
+
+{% endblock %}

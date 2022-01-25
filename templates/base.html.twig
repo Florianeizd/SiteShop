@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+      
+      
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{{ path('home') }}" _msthash="1864226" _msttexthash="349570">SiteShop</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" _msthidden="A" _msthiddenattr="1739517" _mstaria-label="320099">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          
+              <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('accueil') }}" _msthash="622726" _msttexthash="326092">Articles</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('accueil_create') }}" _msthash="622908" _msttexthash="95446">Créer un article</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" _msthash="623272" _msttexthash="313989">Liste déroulante</a>
+                    <div class="dropdown-menu" _mstvisible="0">
+                      <a class="dropdown-item" href="#" _msthash="872430" _msttexthash="76466" _mstvisible="1">Action</a>
+                      <a class="dropdown-item" href="#" _msthash="872547" _msttexthash="261807" _mstvisible="1">Une autre action</a>
+                      <a class="dropdown-item" href="#" _msthash="872664" _msttexthash="229879" _mstvisible="1">Autre chose ici</a>
+                      <div class="dropdown-divider" _mstvisible="1"></div>
+                      <a class="dropdown-item" href="#" _msthash="872898" _msttexthash="204022" _mstvisible="1">Lien séparé</a>
+                    </div>
+                  </li>
+                </ul>
+                <form class="d-flex">
+                  <input class="form-control me-sm-2" type="text" placeholder="Rechercher" _mstplaceholder="154362">
+                  <button class="btn btn-secondary my-2 my-sm-0" type="submit" _msthash="730886" _msttexthash="154362">Rechercher</button>
+                </form>
+                <div class="d-flex mx-2"> 
+                      {% if app.user %} 
+                      <a class="btn btn-light" href="{{ path('app_logout')}}"><i class="fas fa-sign-out-alt"></i> Deconnexion</a>
+                      {% else %}
+                          <a class="btn btn-light mx-2" href="{{ path('app_login')}} "><i class="fas fa-user"></i> Connexion</a>
+                          <a href="{{ path('app_register')}}" class="btn btn-light"><i class="fas fa-mouse-pointer"></i> Inscription</a>
+                      {% endif %}
+                </div>
+              </div>
+            </div>
+        </nav>
+        <div class="container">
+            {% include "_flash_message.html.twig" %}
+            {% block body %}{% endblock %}
+        </div>
+        
+    </body>
+</html>

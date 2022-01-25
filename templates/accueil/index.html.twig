@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccueilController!{% endblock %}
+
+{% block body %}
+<section class="articles">
+
+    {% for article in articles %}
+        <article>
+            <h2>{{ article.nom }}</h2>
+            <div class="metadata">Prix de l'article : {{ article.prix }} dans la catégorie {{ article.categorie.titre }}</div>
+            <div class="content">
+
+                {% if article.image %}
+                    <img src="{{ asset(pathImageArticles ~ article.image ) }}" alt="{{ article.nom }}">
+                {% else %}
+                    <img src="http://placehold.it/350x150" alt="{{ article.nom }}">
+                 {% endif %}
+                <br>
+
+                {{ article.prix }}
+                {{ article.description | raw }}
+                <a href="{{ path('article_show', {'id' : article.id }) }}" class=" btn btn-primary">Voir plus</a>
+            </div>
+        </article>
+    {% endfor %}
+   
+
+</section>
+
+{% endblock %}
