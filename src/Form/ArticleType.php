@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
-use App\Entity\Category;
+use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,19 +16,15 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'titre',
-                'label' => 'Catégorie',
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'titre'
             ])
             ->add('description')
             ->add('prix')
             ->add('attachments', CollectionType::class, [
-                'entry_type' => AttachmentType::class,
+                'entry_type' => AttachmentType::class, 
                 'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'row_attr' => ['class' => 'd-none'],
             ])
         ;
     }

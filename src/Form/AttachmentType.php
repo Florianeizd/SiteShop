@@ -15,8 +15,6 @@ class AttachmentType extends AbstractType
         $builder
             ->add('file', FileType::class, [
                 'required' => false,
-                'label' => false,
-                'attr' => ['class' => 'custom-file-input'],
  			])
         ;
     }
