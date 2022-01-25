@@ -38,7 +38,7 @@ class ArticleController extends AbstractController
      * @return RedirectResponse|Response
      */
     #[Route('/article/new', name: 'article_create')]
-    #[Route('/article/{id}/edit', name: 'article_edit')]
+    #[Route('/admin/article/{id}/edit', name: 'article_edit')]
     public function form(Article $article = null, Request $request, EntityManagerInterface $manager, FileUploadServiceInterface $fileUploadService): RedirectResponse|Response
     {
         if (!$article) {
